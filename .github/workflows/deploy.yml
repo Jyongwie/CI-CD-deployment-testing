@@ -61,7 +61,7 @@ jobs:
         mkdir -p ~/.kube
         echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
         kubectl config get-contexts
-        kubectl config use-context minikube
+        kubectl config use-context $(kubectl config current-context)
 
     # Step 4: Apply Kubernetes manifests
     - name: Deploy to Kubernetes
