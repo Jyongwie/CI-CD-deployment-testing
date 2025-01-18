@@ -59,8 +59,18 @@ jobs:
     - name: Set Kubeconfig
       run: |
         mkdir -p ~/.kube
-        echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
-        kubectl config use-context ${CONTEXT_NAME}
+        kubectl config set-cluster my-cluster \
+          --server=$KUBE_API_SERVER \
+          --insecure-skip-tls-verify=true
+        kubectl config set-credentials sa-github-actions \
+          --token=$KUBE_TOKEN
+        kubectl config set-context default \
+          --cluster=my-cluster \
+          --user=sa-github-actions
+        kubectl config use-context default
+      env:
+        KUBE_API_SERVER: ${{ secrets.KUBE_API_SERVER }}
+        KUBE_TOKEN: ${{ secrets.KUBE_TOKEN }}
 
     # Step 4: Apply Kubernetes manifests
     - name: Deploy to Kubernetes
