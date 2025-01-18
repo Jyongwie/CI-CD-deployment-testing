@@ -34,7 +34,7 @@ services:
 
   app:
     build:
-      context: 
+      context: ./
       dockerfile: Dockerfile.prod
     image: jyongz/nod-project-full:latest
     container_name: nod-project
