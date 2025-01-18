@@ -65,4 +65,4 @@ jobs:
     # Step 4: Apply Kubernetes manifests
     - name: Deploy to Kubernetes
       run: |
-        kubectl apply -f k8s/*.yaml
+        kubectl apply -f /k8s/
