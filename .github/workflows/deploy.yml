@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Jalankan pipeline setiap ada push ke branch main
+      - master  # Jalankan pipeline setiap ada push ke branch master
   pull_request:
     branches:
-      - main  # Jalankan pipeline untuk setiap PR ke branch main
+      - master  # Jalankan pipeline untuk setiap PR ke branch master
 
 jobs:
   build-and-push-docker:
