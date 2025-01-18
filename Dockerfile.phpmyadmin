@@ -1,0 +1,16 @@
+# Gunakan image dasar phpMyAdmin
+FROM phpmyadmin/phpmyadmin:latest
+
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Set environment variables
+ENV PMA_ARBITRARY=1
+ENV PMA_HOST=mysql
+ENV PMA_USER=myuser
+ENV PMA_PASSWORD=mypassword
+
+# Expose port 80 agar bisa diakses melalui localhost
+EXPOSE 80
+
+# Jalankan Apache
+CMD ["apache2-foreground"]

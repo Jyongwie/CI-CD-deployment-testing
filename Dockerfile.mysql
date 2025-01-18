@@ -1,0 +1,11 @@
+# Gunakan image dasar MySQL
+FROM mysql:8.0
+
+# Menginisialisasi environment untuk password root, nama database, username, dan password
+ENV MYSQL_ROOT_PASSWORD=rootpassword
+ENV MYSQL_DATABASE=mydb
+ENV MYSQL_USER=myuser
+ENV MYSQL_PASSWORD=mypassword
+
+# Expose port MySQL
+EXPOSE 3306
