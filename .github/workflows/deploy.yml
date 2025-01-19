@@ -56,10 +56,14 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG_CONTENT }}" > ~/.kube/config
           chmod 600 ~/.kube/config
+          kubectl config use-context my-context
 
       # Step 3: Verify kubectl connection
       - name: Verify Kubernetes Connection
-        run: kubectl get nodes
+        run: |
+          kubectl config view
+          kubectl config current-context
+          kubectl get nodes
 
       # Step 4: Apply Kubernetes manifests
       - name: Deploy to Kubernetes
