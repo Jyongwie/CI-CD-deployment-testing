@@ -79,11 +79,13 @@ jobs:
               client-certificate: /path/to/client.crt
               client-key: /path/to/client.key" > ~/.kube/config
 
-      - name: Verify Kubernetes Connection
+      - name: Set Kubernetes context
         run: |
-          kubectl config view
-          kubectl config current-context
-          kubectl get nodes
+          kubectl config set-context minikube \
+            --cluster=minikube \
+            --user=minikube \
+            --namespace=default
+          kubectl config use-context minikube
 
       - name: Deploy to Kubernetes
         run: kubectl apply -f ./k8s/ --validate=false
