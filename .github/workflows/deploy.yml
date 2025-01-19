@@ -54,6 +54,7 @@ jobs:
       - name: Set up kubeconfig
         run: |
           mkdir -p ~/.kube
+          curl -o ~/.kube/config http://https://127.0.0.1:59282
           echo "${{ secrets.KUBECONFIG_CONTENT }}" > ~/.kube/config
           chmod 600 ~/.kube/config
           kubectl config use-context minikube
