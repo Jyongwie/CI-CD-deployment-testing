@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+      - master  # Jalankan pipeline setiap ada push ke branch master
   pull_request:
     branches:
-      - master
+      - master  # Jalankan pipeline untuk setiap PR ke branch master
 
 jobs:
   build-and-push-docker:
@@ -14,24 +14,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout kode dari repository
-      - name: Checkout code
-        uses: actions/checkout@v3
+    # Step 1: Checkout kode dari repository
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      # Step 2: Login ke Docker Hub
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Install Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker-compose
 
-      # Step 3: Build Docker image
-      - name: Build Docker Image
-        run: docker-compose -f Docker-compose.yml build
+    # Step 2: Login ke Docker Hub
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 4: Push Docker image ke Docker Hub
-      - name: Push Docker Image to Docker Hub
-        run: docker-compose -f Docker-compose.yml push
+    # Step 3: Build Docker image
+    - name: Build Docker Image
+      run: |
+        docker-compose -f Docker-compose.yml build
+    
+    # Step 4: Push Docker image ke Docker Hub
+    - name: Push Docker Image to Docker Hub
+      run: |
+        docker-compose -f Docker-compose.yml push 
 
   deploy-to-kubernetes:
     name: Deploy to Kubernetes
