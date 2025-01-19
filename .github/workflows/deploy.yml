@@ -75,7 +75,7 @@ jobs:
       - name: Setup certificate
         run: |
           mkdir -p /tmp/kube
-          echo "${{ secrets.MINIKUBE_CA_CRT }}" > /tmp/kube/ca.crt
+          echo "${{ secrets.MINIKUBEA_CRT _C}}" > /tmp/kube/ca.crt
           echo "${{ secrets.MINIKUBE_CLIENT_CRT }}" > /tmp/kube/client.crt
           echo "${{ secrets.MINIKUBE_CLIENT_KEY }}" > /tmp/kube/client.key
 
