@@ -106,10 +106,6 @@ jobs:
 
       - name: Set Kubernetes context
         run: |
-          kubectl config set-context minikube \
-            --cluster=minikube \
-            --user=minikube \
-            --namespace=default
           kubectl config use-context minikube
 
       - name: Deploy to Kubernetes
