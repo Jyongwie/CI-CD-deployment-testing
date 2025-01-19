@@ -112,12 +112,6 @@ jobs:
             --namespace=default
           kubectl config use-context minikube
         
-  deploy-with-helm:
-    name: Deploy with helm
-    needs: setup-and-configuring-kubernetes
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Install helm
         run: |
            curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
