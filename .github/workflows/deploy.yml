@@ -55,7 +55,7 @@ jobs:
 
       - name: Start minikube
         run: |
-          minikube start --driver=docker
+          minikube start --driver=none
 
   deploy-to-kubernetes:
     name: Deploy to Kubernetes
