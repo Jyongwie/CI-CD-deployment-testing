@@ -46,26 +46,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout kode dari repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up kubeconfig
-      - name: Set up kubeconfig
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      - name: Configure kubeconfig
         run: |
           mkdir -p ~/.kube
-          curl -o ~/.kube/config https://127.0.0.1:59282
           echo "${{ secrets.KUBECONFIG_CONTENT }}" > ~/.kube/config
           chmod 600 ~/.kube/config
-          kubectl config use-context minikube
 
-      # Step 3: Verify kubectl connection
+      - name: Use minikube context
+        run: |
+          kubectl configure-context minikube
+
+      - name: Verify kubectl setup
+        run: |
+          kubectl get nodes
+
       - name: Verify Kubernetes Connection
         run: |
           kubectl config view
           kubectl config current-context
           kubectl get nodes
 
-      # Step 4: Apply Kubernetes manifests
       - name: Deploy to Kubernetes
         run: kubectl apply -f ./k8s/ --validate=false
