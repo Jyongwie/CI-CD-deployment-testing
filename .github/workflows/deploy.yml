@@ -61,10 +61,6 @@ jobs:
           echo "${{ secrets.KUBECONFIG_CONTENT }}" > ~/.kube/config
           chmod 600 ~/.kube/config
 
-      - name: Verify kubectl setup
-        run: |
-          kubectl get nodes
-
       - name: Verify Kubernetes Connection
         run: |
           kubectl config view
