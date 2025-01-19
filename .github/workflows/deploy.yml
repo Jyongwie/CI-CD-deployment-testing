@@ -58,8 +58,26 @@ jobs:
       - name: Configure kubeconfig
         run: |
           mkdir -p ~/.kube
-          echo "${{ secrets.KUBECONFIG_CONTENT }}" > ~/.kube/config
-          chmod 600 ~/.kube/config
+          echo "apiVersion: v1 
+          kind: Config
+          preferences: {}
+          clusters:
+            - cluster:
+                server: https://127.0.0.1:59282
+                certificate-authority: /path/to/ca.crt
+              name: minikube
+          context:
+            - context:
+                cluster: minikube
+                user: minikube
+                namespace: default
+              name: minikube
+          current-context: minikube
+          users:
+          - name: minikube
+            user:
+              client-certificate: /path/to/client.crt
+              client-key: /path/to/client.key" > ~/.kube/config
 
       - name: Verify Kubernetes Connection
         run: |
