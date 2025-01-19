@@ -114,7 +114,7 @@ jobs:
         
   deploy-with-helm:
     name: Deploy with helm
-    need: setup-and-configuring-kubernetes
+    needs: setup-and-configuring-kubernetes
     runs-on: ubuntu-latest
 
     steps:
