@@ -55,10 +55,10 @@ jobs:
 
       - name: Start minikube
         run: |
-          minikube start --driver=none
+          minikube start --driver=docker
 
-  deploy-to-kubernetes:
-    name: Deploy to Kubernetes
+  setup-and-configuring-kubernetes:
+    name: Setup and configuring Kubernetes
     needs: [build-and-push-docker, preparing-minikube]
     runs-on: ubuntu-latest
 
@@ -111,7 +111,21 @@ jobs:
             --user=minikube \
             --namespace=default
           kubectl config use-context minikube
+        
+  deploy-with-helm:
+    name: Deploy with helm
+    need: setup-and-configuring-kubernetes
+    runs-on: ubuntu-latest
 
-      - name: Deploy to Kubernetes
+    steps:
+      - name: Install helm
         run: |
-          kubectl apply -f k8s/app-deployment.yaml --validate=false
+           curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+      - name: Deploying
+        run: |
+          helm upgrade --install my-release ./helm-chart
+
+      - name: Verify deployment
+        run: |
+          kubectl get pods
