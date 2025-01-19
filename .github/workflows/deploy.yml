@@ -68,7 +68,7 @@ jobs:
           clusters:
             - cluster:
                 server: https://127.0.0.1:59282
-                certificate-authority: /path/to/ca.crt
+                certificate-authority: /.minikube/ca.crt
               name: minikube
           context:
             - context:
@@ -80,8 +80,9 @@ jobs:
           users:
           - name: minikube
             user:
-              client-certificate: /path/to/client.crt
-              client-key: /path/to/client.key" > ~/.kube/config
+              client-certificate: /.minikube/client.crt
+              client-key: /.minikube/client.key 
+          " > ~/.kube/config
 
       - name: Set Kubernetes context
         run: |
