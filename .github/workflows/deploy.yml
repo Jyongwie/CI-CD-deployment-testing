@@ -58,7 +58,11 @@ jobs:
       - name: Configure kubeconfig
         run: |
           mkdir -p ~/.kube
+          mkdir -p ~/.minikube
           echo "apiVersion: v1 
+          echo "${{ secrets.MINIKUBE_CA_CRT }}" > ~/.minikube/ca.crt
+          echo "${{ secrets.MINIKUBE_CLIENT_CRT }}" > ~/.minikube/client.crt
+          echo "${{ secrets.MINIKUBE_CLIENT_KEY }}" > ~/.minikube/client.key
           kind: Config
           preferences: {}
           clusters:
