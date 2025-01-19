@@ -53,6 +53,7 @@ jobs:
       # Step 2: Set up kubeconfig
       - name: Set up kubeconfig
         run: |
+          mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG_CONTENT }}" > ~/.kube/config
           chmod 600 ~/.kube/config
 
