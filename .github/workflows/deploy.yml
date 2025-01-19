@@ -55,20 +55,23 @@ jobs:
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
 
+      - name: Setup certificate
+        run: |
+          mkdir -p /tmp/kube
+          echo "${{ secrets.MINIKUBE_CA_CRT }}" > /tmp/kube/ca.crt
+          echo "${{ secrets.MINIKUBE_CLIENT_CRT }}" > /tmp/kube/client.crt
+          echo "${{ secrets.MINIKUBE_CLIENT_KEY }}" > /tmp/kube/client.key
+
       - name: Configure kubeconfig
         run: |
           mkdir -p ~/.kube
-          mkdir -p ~/.minikube
-          echo "${{ secrets.MINIKUBE_CA_CRT }}" > ~/.minikube/ca.crt
-          echo "${{ secrets.MINIKUBE_CLIENT_CRT }}" > ~/.minikube/client.crt
-          echo "${{ secrets.MINIKUBE_CLIENT_KEY }}" > ~/.minikube/client.key
           echo "apiVersion: v1 
           kind: Config
           preferences: {}
           clusters:
             - cluster:
                 server: https://127.0.0.1:59282
-                certificate-authority: /.minikube/ca.crt
+                certificate-authority: /tmp/kube/ca.crt
               name: minikube
           context:
             - context:
@@ -80,8 +83,8 @@ jobs:
           users:
           - name: minikube
             user:
-              client-certificate: /.minikube/client.crt
-              client-key: /.minikube/client.key 
+              client-certificate: /tmp/kube/client.crt
+              client-key: /tmp/kube/client.key 
           " > ~/.kube/config
 
       - name: Set Kubernetes context
