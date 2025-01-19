@@ -111,15 +111,3 @@ jobs:
             --user=minikube \
             --namespace=default
           kubectl config use-context minikube
-        
-      - name: Install helm
-        run: |
-           curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-
-      - name: Deploying
-        run: |
-          helm upgrade --install my-release ./helm-chart
-
-      - name: Verify deployment
-        run: |
-          kubectl get pods
