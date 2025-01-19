@@ -63,7 +63,7 @@ jobs:
 
       - name: Use minikube context
         run: |
-          kubectl configure-context minikube
+          kubectl config use-context minikube
 
       - name: Verify kubectl setup
         run: |
